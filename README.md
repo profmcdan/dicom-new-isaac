@@ -7,13 +7,11 @@ Detecting and examining pulmonary nodules early is one of the best ways to preve
 
 ## Requirments
 
-This code has been tested on Ubuntu 16.04 64-bit system.
+This code has been tested on Windows 10 64-bit system.
 
 ### Prerequisites
 
 [Python 2](https://www.python.org/download/releases/2.7.2/)
-
-[PyTorch](http://pytorch.org/)
 
 [LUNA Dataset](https://luna16.grand-challenge.org/) 
 
@@ -55,10 +53,9 @@ This code has been tested on Ubuntu 16.04 64-bit system.
 
 ## Contact
 
-Hwejin Jung(hwejin23@gmail.com)
+Isaac (isaac@gmail.com)
 
 
 ## Acknowledgements
 
-Our code is inspired by the [Video 3D Classification](https://github.com/kenshohara/video-classification-3d-cnn-pytorch) code.
 

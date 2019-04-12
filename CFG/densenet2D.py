@@ -34,10 +34,11 @@ class DenseNet(nn.Module):
         out = self.CNN_model(images)
         fin_feature = out.view(images.size(0), -1)
         out = self.fc(fin_feature)
-        return out
+        
         if self.without_fc:
             return out
         else:
             out = self.fc(fin_feature)
             return out
+        return out
 

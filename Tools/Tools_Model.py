@@ -97,11 +97,11 @@ def model_setter(idx, img_size=64, batch_size=None, isTest=False):
 
 
 def modelLoader(model_name, test_index, img_size, epoch=-1):
-    if not os.path.exists('../Model'):
-        os.mkdir('../Model')
+    if not os.path.exists('Model'):
+        os.mkdir('Model')
 
 
-    model_path = os.path.join('../Model', model_name + '_withoutPT')
+    model_path = os.path.join('Model', model_name + '_withoutPT')
     if not os.path.exists(model_path):
         os.mkdir(model_path)
     files = os.listdir(model_path)
@@ -112,8 +112,8 @@ def modelLoader(model_name, test_index, img_size, epoch=-1):
                 model_list.append(file)
 
     model_list.sort()
-    print model_path
-    print model_list
+    print(model_path)
+    print(model_list)
     if len(model_list) < 1:
         return None, -1
     else:
@@ -123,7 +123,7 @@ def modelLoader(model_name, test_index, img_size, epoch=-1):
                 model_out = os.path.join(model_path, model_name)
                 model_epoch = epoch
             else:
-                print 'NO MODEL!!'
+                print('NO MODEL!!')
                 model_out = os.path.join(model_path, model_list[-1])
                 model_epoch = int(model_list[-1].split('__')[-2])
         else:

@@ -11,6 +11,7 @@ from torch.autograd import Variable
 from torchvision import datasets, models, transforms
 import numpy as np
 import os
+# import CFG.model as Model
 import model as MODEL
 import DataLoader as DL
 import Tools_Torch as TORCH_T
@@ -22,24 +23,24 @@ from noduleCADEvaluationLUNA16 import *
 
 def test(model_idx, num_epoch, batch_size, img_size):
     out_name = MODEL_T.model_names[model_idx] + '_' + str(num_epoch) + '_' + str(img_size)
-    out_file_dir = os.path.join('../Output', 'nopretrain')
+    out_file_dir = os.path.join('Output', 'nopretrain')
 
 
 
     if not os.path.isdir(out_file_dir):
         os.mkdir(out_file_dir)
     out_file_path = os.path.join(out_file_dir, out_name + '.csv')
-    print 'Out File : ' , out_file_path, 
+    print('Out File : {0}' , out_file_path)
     if os.path.isfile(out_file_path):
         os.remove(out_file_path)
 
 
 
-    f = file(out_file_path, 'a')
+    f = open(out_file_path, 'a')
     f.write('seriesuid,coordX,coordY,coordZ,probability\n')
 
     for test_index in range(10):
-        print 'Test for ', test_index + 1, ' fold'
+        print('Test for ' + str(test_index + 1) + ' fold')
 
         model, model_name, batch_size = MODEL_T.model_setter(model_idx, img_size=img_size, batch_size=batch_size, isTest=True)
         model_path, model_epoch = MODEL_T.modelLoader(model_name, test_index, img_size, epoch=num_epoch)
@@ -48,9 +49,9 @@ def test(model_idx, num_epoch, batch_size, img_size):
 
         model.load_state_dict(torch.load(model_path))
         model.eval()
-        print '\nModel Name : ', model_name
-        print '\nModel Path : ', model_path
-        print '\nBatch_size : ', batch_size  
+        print('\nModel Name : ', model_name)
+        print('\nModel Path : ', model_path)
+        print('\nBatch_size : ', batch_size)
 
 
 
@@ -63,15 +64,15 @@ def test(model_idx, num_epoch, batch_size, img_size):
 
         patientDict, candidateList = IO_T.makePreLists(test_index, isTest=True)
 
-        print '  Patient Count : ', len(patientDict)
-        print '  Nodule Count : ', len(candidateList)
+        print('  Patient Count : ', len(patientDict))
+        print('  Nodule Count : ', len(candidateList))
 
 
 
         for batch_index in range((len(candidateList) / batch_size) + 1):
             batch_img, batch_label, batch_P_ID, batch_XYZ = DL.makeBatch(batch_index, batch_size, candidateList, patientDict)
 
-            label = TORCH_T.to_var(torch.LongTensor(batch_label).view(-1))
+            label = TORCH_T.to_var(torch.FloatTensor(batch_label).view(-1))
             outputs = model(TORCH_T.imageOnTorch(batch_img, model_idx, img_size=img_size))
             guess, guess_i = IO_T.classFromOutput(outputs)
             lines = IO_T.modify_candidates_V2_OUT(batch_P_ID, batch_XYZ, F.softmax(outputs).data.cpu().numpy())
@@ -81,9 +82,9 @@ def test(model_idx, num_epoch, batch_size, img_size):
             correct = np.sum(np.array(guess_i) == (label.data).cpu().numpy())
             correct_cnt += correct
             if batch_index % 100 == 0:
-                print '  ', batch_index, ' Batch Accuracy : ', correct * 100 / batch_size, '%'
-        print 'Test set (', test_index + 1, ') Accuracy: ', correct_cnt ,'/', len(candidateList), '----->', (correct_cnt * 100 / len(candidateList)) , '%'
-        print 
+                print('  ', batch_index, ' Batch Accuracy : ', correct * 100 / batch_size, '%')
+        print('Test set (', str(test_index + 1), ') Accuracy: ', str(correct_cnt) ,'/', str(len(candidateList)), '----->', str(correct_cnt * 100 / len(candidateList)) , '%')
+        print()
     f.close()
 
 
@@ -98,4 +99,4 @@ def test(model_idx, num_epoch, batch_size, img_size):
 
 
     noduleCADEvaluation(annotations_filename,annotations_excluded_filename,seriesuids_filename,results_filename,outputDir)
-    print 'DONE'
+    print('DONE')

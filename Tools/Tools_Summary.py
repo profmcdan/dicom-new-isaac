@@ -23,7 +23,7 @@ def result_Summary(guess_i, label, isPrint=False):
                 TN += 1
                 
     if isPrint:
-        print '                   TP : ', TP, ' FP : ', FP, ' FN : ', FN, ' TN : ', TN
+        print('                   TP : ', TP, ' FP : ', FP, ' FN : ', FN, ' TN : ', TN)
     return TP, FP, FN, TN
 
 
@@ -32,5 +32,5 @@ def result_correct(guess_i, label, isPrint=False):
     label = (label.data).cpu().numpy()
     correct = np.sum((guess_i) == (label))
     if isPrint:
-        print '                   Accuracy : ', correct ,'/', label.shape[0], '----->', (correct * 100 / label.shape[0]) , '%'
+        print('                   Accuracy : ', correct ,'/', label.shape[0], '----->', (correct * 100 / label.shape[0]) , '%')
     return correct

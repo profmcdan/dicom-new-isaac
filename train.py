@@ -24,33 +24,33 @@ def train(model_idx, test_index, batch_size, img_size, isContinue=False):
 
  
 
-    print '\nModel Name : ', model_name
-    print '\nBatch_Size : ', batch_size
-    print '\nTest_Index : ', test_index
-    print 
+    print('\nModel Name : ', model_name)
+    print('\nBatch_Size : ', batch_size)
+    print('\nTest_Index : ', test_index)
+    print()
 
 
 
 
     if isContinue and model_path != None:
         model.load_state_dict(torch.load(model_path))
-        print 'Previous Model Loaded!     -> ', model_path
-        print 'Start Epoch : ' , model_epoch 
+        print('Previous Model Loaded!     -> {}', model_path)
+        print('Start Epoch : {}', model_epoch)
 
         epoch = model_epoch + 1
     else:
-        print 'No Model Loaded!'
-        print 'Start Epoch : 0'	
+        print('No Model Loaded!')
+        print('Start Epoch : 0')	
         epoch = 0        
 
     epoch_lr = epoch % 3
     learning_rate = 0.001 / float(pow(2, epoch_lr))
     #learning_rate = 0.001
-    print 'Learning Rate :', learning_rate
+    print('Learning Rate : {}', learning_rate)
 
 
     criterion = nn.CrossEntropyLoss()
-    print 'CROSSENTROPY LOSS'
+    print('CROSSENTROPY LOSS')
 
 
 
@@ -64,10 +64,10 @@ def train(model_idx, test_index, batch_size, img_size, isContinue=False):
         candidateList = None
         if train_index != test_index:
             train_correct_cnt = 0
-            print '      Train for ', train_index + 1, ' fold'
-	    patientDict, candidateList = IO_T.makePreLists(train_index, isBalanced=True)
-            print '          Patient Count : ', len(patientDict)
-            print '          Nodule Count : ', len(candidateList)
+            print('      Train for ' + train_index + 1 + ' fold')
+            patientDict, candidateList = IO_T.makePreLists(train_index, isBalanced=True)
+            print('          Patient Count : {}', len(patientDict))
+            print('          Nodule Count : {}', len(candidateList))
 
     
             for batch_index in range((len(candidateList) / batch_size)):
@@ -90,8 +90,8 @@ def train(model_idx, test_index, batch_size, img_size, isContinue=False):
                     
 
                 if batch_index % 100 == 0:
-                    print '        In mini-batch ', batch_index
-                    print '                   Loss : ', loss.data[0]
+                    print('        In mini-batch ' + batch_index)
+                    print('                   Loss : ' + loss.data[0])
                     TP, FP, FN, TN = SUMMARY_T.result_Summary(guess_i, label, isPrint=True)
                     correct = SUMMARY_T.result_correct(guess_i, label, isPrint=True)
                 else:
@@ -103,12 +103,12 @@ def train(model_idx, test_index, batch_size, img_size, isContinue=False):
 
 
 
-            print train_correct_cnt, '/', len(candidateList), '----->', (train_correct_cnt * 100 / len(candidateList)) , '%'
+            print(train_correct_cnt + '/' + str(len(candidateList)) + '----->' + str((train_correct_cnt * 100 / len(candidateList)))  + '%')
     save_model_name = model_name + '____' + str(test_index)+ '__'+ str(epoch) + '__' + str(img_size) + '.pt'
-    save_model_path = os.path.join('../Model', model_name + '_withoutPT')
+    save_model_path = os.path.join('Model', model_name + '_withoutPT')
     if not os.path.isdir(save_model_path):
         os.mkdir(save_model_path)
     torch.save(model.state_dict(), os.path.join(save_model_path, save_model_name))
 
-    print 'Model Stored ----------->   ' , save_model_name
+    print('Model Stored ----------->   {}', save_model_name)
 

@@ -28,8 +28,8 @@ def classFromOutput(output):
 
 def makePreLists(index, isBalanced=False, isTest=False):
 
-    candPath = '../Data/CSVFILES/candidates_V2.csv'
-    f = file(candPath, 'r')
+    candPath = 'data/candidates_V2.csv'
+    f = open(candPath, 'r')
     lines = f.readlines()
     f.close() 
     
@@ -59,7 +59,7 @@ def makePreLists(index, isBalanced=False, isTest=False):
 
             
             
-    subset_path = os.path.join('../Data/SUBSET', 'subset'+ str(index))
+    subset_path = os.path.join('data/', 'subset'+ str(index))
     p_files = os.listdir(subset_path)
     
     patientDict = {}
@@ -109,7 +109,7 @@ def makePreLists(index, isBalanced=False, isTest=False):
                         infoDict['P_ID'] = patient
                         infoDict['Label'] = copy.deepcopy(Candidate['Label'])
                         balancedCandidate.append(infoDict)
-        print 'USING ALL DATA ----> No BALANCING'
+        print('USING ALL DATA ----> No BALANCING')
     else:
         balanced_ratio = 100
         for patient in patientDict:
@@ -137,7 +137,7 @@ def makePreLists(index, isBalanced=False, isTest=False):
                         c_n_cnt += 1
 
 
-        print 'USING BALANCED DATA -----> * 100'
+        print('USING BALANCED DATA -----> * 100')
     shuffle(balancedCandidate)
     
     return patientDict, balancedCandidate

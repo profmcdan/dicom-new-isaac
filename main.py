@@ -17,12 +17,12 @@ Batch_Size = args.Batch
 Epoch_Cnt = args.Epoch
 Img_Size = args.ImgSize
 
-print 'Train or Test : ', Train_or_Test
-print 'Model Type : ', Model_Type
-print 'Batch Size : ', Batch_Size
-print 'Epoch Count : ', Epoch_Cnt
-print 'Image Size : ', Img_Size
-print 
+print('Train or Test : {0}', Train_or_Test)
+print('Model Type : {}', Model_Type)
+print('Batch Size : {}', Batch_Size)
+print('Epoch Count : {}', Epoch_Cnt)
+print('Image Size : {}', Img_Size)
+print()
 
 
 if Train_or_Test == 'Train':

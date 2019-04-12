@@ -51,7 +51,7 @@ def Image3DOut(voxelCoord, numpyImage, voxelWidth = 70):
     return patch
 
 def imgReturn(p_id):
-    img_Dir_Path = '../Data/ALLINONE'
+    img_Dir_Path = 'data/ALLINONE'
 
     imgPath = os.path.join(img_Dir_Path, p_id + '.mhd')
     numpyImage, numpyOrigin, numpySpacing = load_itk_image(imgPath)

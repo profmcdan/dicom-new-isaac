@@ -262,14 +262,14 @@ def generate_3DResnet(model_name, model_depth, img_size, num_class, isPretrained
 
 
     if isPretrained and not isTest:
-        files = os.listdir('../Model/PretrainedWeight')
+        files = os.listdir('Model/PretrainedWeight')
         model_path = None
         for file in files:
             if (model_name + '-' + str(model_depth)) in file:
-                model_path = os.path.join('../Model/PretrainedWeight', file)
+                model_path = os.path.join('Model/PretrainedWeight', file)
         model_dict = model.state_dict()
         pretrain = torch.load(model_path)
-        print 'Pretrained Weight Loaded'
+        print('Pretrained Weight Loaded')
         new_pretrain_dict = OrderedDict()
         for k, v in pretrain['state_dict'].items():
             name = k[7:]

@@ -14,20 +14,16 @@ import math
 class ResRes(nn.Module):
     def __init__(self, sample_size):
         super(ResRes, self).__init__()
-        Res2D = r2.ResNet(18, sample_size, without_fc=True)
-        Res3D = r3.generate_3DResnet('resnet', 18, sample_size, 2, without_fc=True)
+        self.Res2D = r2.ResNet(18, sample_size, without_fc=True)
+        self.Res3D = r3.generate_3DResnet('resnet', 18, sample_size, 2, without_fc=True)
         self.sample_size = sample_size
 
     def forward(self, img2D, img3D):
 
-
-
-
-
-        out2D = Res2D(img2D)
-        print out2D
-        out3D = Res3D(img3D)
-        print out3D
+        out2D = self.Res2D(img2D)
+        print(out2D)
+        out3D = self.Res3D(img3D)
+        print(out3D)
         concat = torch.cat([out2D, out3D], 1)
         out = nn.Linear(concat, 2)
 
